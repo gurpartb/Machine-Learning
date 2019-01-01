@@ -15,3 +15,12 @@ test_set = subset(dataset, split == FALSE)
 # Feature Scaling
 training_set[, 1:2] = scale(training_set[, 1:2])
 test_set[, 1:2] = scale(test_set[, 1:2])
+
+# Fitting Logistic Rgression to the Training set
+classifier = glm(formula = Purchased ~ .,
+                 family = binomial,
+                 data = training_set)
+
+# Predicting the Test set results
+prob_pred = predict(classifier, type = 'response', newdata = test_set[-3])
+y_pred = ifelse(prob_pred > 0.5, 1, 0)
